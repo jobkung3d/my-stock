@@ -1,3 +1,3 @@
-# my-service
+# my-stock
 
-API สำหรับ Web stock
+Website สำหรับ Stock สินค้า
