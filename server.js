@@ -27,7 +27,7 @@ app.get('/users', (req,res)=>{
         res.json(rows)   
     })
     connection.end()
-})
+}) 
 
 app.get('/stocks', (req,res)=>{
     res.send('stock')
