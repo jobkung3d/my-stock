@@ -15,7 +15,7 @@ class Header extends Component{
     }
 
     componentDidMount(){
-        axios.get("http://localhost:3000/users").then(res => {
+        axios.get("http://localhost:3000/api/users/").then(res => {
             console.log(res.data)
         })
     }

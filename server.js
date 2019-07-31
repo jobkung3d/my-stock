@@ -20,13 +20,15 @@ app.get('/products', (req,res)=>{
     res.json(books) 
 })
 
-app.get('/users', (req,res)=>{
-    connection.connect()
+app.get('/api/users', (req,res)=>{
+    /*connection.connect()
     connection.query('SELECT * FROM user WHERE 1', function (err, rows, fields) {
         if (err) throw err
         res.json(rows)   
     })
-    connection.end()
+    connection.end()*/
+    const users = [{"id":1,"first_name":"วรวิทย์","last_name":"ปธานวนิช","email":"worawit@gmail.com","password":"123456"},{"id":2,"first_name":"วรชาติ","last_name":"ปธานวนิช","email":"worachat@gmail.com","password":"Aa123456789"}]
+    res.json(users)
 }) 
 
 app.get('/stocks', (req,res)=>{
