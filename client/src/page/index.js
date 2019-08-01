@@ -8,7 +8,7 @@ class Home extends Component{
         return(
             <div>
                 <Layout>
-                   Index 2
+
                 </Layout>
             </div>
         )
