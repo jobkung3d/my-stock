@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Layout from '../../component/layout';
-import Table from '../../component/table';
+import EnhancedTable from '../../component/table';
 import { withRouter, Link } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
@@ -19,7 +19,7 @@ const useStyles  = (theme => ({
 
 class ProductList extends Component{ 
     render(){
-        const { classes } = this.props
+        //const { classes } = this.props
         return(
             <div>
                 <Layout>
@@ -31,7 +31,7 @@ class ProductList extends Component{
                             <Link to="/products/add"><Fab color="primary" aria-label="add"><AddIcon /></Fab></Link>
                         </Typography>
                     </Box>
-                    <Table />
+                    <EnhancedTable />
                 </Layout>
             </div>
         )
