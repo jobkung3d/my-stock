@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import Layout from '../component/layout';
+import Layout from '../../component/layout';
 import { withRouter } from "react-router-dom";
 import 'typeface-roboto';
 
-class Home extends Component{
+class ProductAdd extends Component{ 
     render(){
         return(
             <div>
                 <Layout>
-                    Dashboard
+                    add
                 </Layout>
             </div>
         )
     }
 }
 
-export default withRouter(Home)
+export default withRouter(ProductAdd)
