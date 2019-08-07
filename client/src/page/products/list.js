@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+/*import React, { Component } from 'react';
 import Layout from '../../component/layout';
 import EnhancedTable from '../../component/table';
 import { withRouter, Link } from "react-router-dom";
@@ -38,4 +38,4 @@ class ProductList extends Component{
     }
 }
 
-export default withRouter(withStyles(useStyles)(ProductList))
+export default withRouter(withStyles(useStyles)(ProductList))*/
