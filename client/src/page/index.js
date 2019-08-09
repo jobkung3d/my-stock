@@ -7,7 +7,7 @@ class Home extends Component{
     render(){
         return(
             <div>
-                <Layout>
+                <Layout breadCrumb={["Dashboard"]} menuKey="1">
                     Dashboard
                 </Layout>
             </div>
