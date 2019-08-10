@@ -1,44 +1,5 @@
 import React, { Component } from 'react'
 import { Table, Button, Divider } from 'antd'
-import { Link } from 'react-router-dom'
-const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name'
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age'
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address'
-  },
-  {
-    title: 'Action',
-    dataIndex: 'action',
-    render: (text, record) =>(
-      <span>
-        <a href="javascript:void(0);" onClick={()=>console.log('ffff')}>Invite {record.name}</a>
-        <Divider type="vertical" />
-        <a href="javascript:void(0);" onClick={()=>console.log('ababab')}>Delete</a>
-      </span>
-    )
-  },
-];
-
-const data = [];
-for (let i = 0; i < 46; i++) {
-  data.push({
-    key: i,
-    name: `Edward King ${i}`,
-    age: 32,
-    address: `London, Park Lane no. ${i}`,
-  });
-}
 
 class TableList extends Component {
   state = {
@@ -61,8 +22,50 @@ class TableList extends Component {
     console.log('selectedRowKeys changed: ', selectedRowKeys);
     this.setState({ selectedRowKeys });
   };
+  onClickAction = (test, test2) => {
+    console.log('aaaaa')
+    console.log(test)
+  }
 
   render() {
+    const columns = [
+      {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name'
+      },
+      {
+        title: 'Age',
+        dataIndex: 'age',
+        key: 'age'
+      },
+      {
+        title: 'Address',
+        dataIndex: 'address',
+        key: 'address'
+      },
+      {
+        title: 'Action',
+        dataIndex: 'action',
+        render: (text, record) =>(
+          <span>
+            <Button type="link" onClick={this.onClickAction}>Invite {record.name}</Button>
+            <Divider type="vertical" />
+            <Button type="link" onClick={this.onClickAction}>Delete</Button>
+          </span>
+        )
+      },
+    ];
+    
+    const data = [];
+    for (let i = 0; i < 46; i++) {
+      data.push({
+        key: i,
+        name: `Edward King ${i}`,
+        age: 32,
+        address: `London, Park Lane no. ${i}`,
+      });
+    }
     const { loading, selectedRowKeys } = this.state;
     const rowSelection = {
       selectedRowKeys,
