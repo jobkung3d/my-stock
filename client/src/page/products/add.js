@@ -1,18 +1,16 @@
-/*import React, { Component } from 'react';
-import Layout from '../../component/layout';
-import { withRouter } from "react-router-dom";
-import 'typeface-roboto';
+import React, { Component } from 'react';
+import Layouts from '../../component/layout';
 
 class ProductAdd extends Component{ 
     render(){
         return(
             <div>
-                <Layout>
-                    add
-                </Layout>
+                <Layouts breadCrumb={["Products","Add"]} menuKey="2">
+                  Products Add
+                </Layouts>
             </div>
         )
     }
 }
 
-export default withRouter(ProductAdd)*/
+export default ProductAdd

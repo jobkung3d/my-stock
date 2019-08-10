@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Table, Button, Divider } from 'antd'
+import { Table, Button, Divider, Icon } from 'antd'
+import { Link } from 'react-router-dom'
 
 class TableList extends Component {
   state = {
@@ -22,9 +23,8 @@ class TableList extends Component {
     console.log('selectedRowKeys changed: ', selectedRowKeys);
     this.setState({ selectedRowKeys });
   };
-  onClickAction = (test, test2) => {
+  onClickAction = () => {
     console.log('aaaaa')
-    console.log(test)
   }
 
   render() {
@@ -75,6 +75,7 @@ class TableList extends Component {
     return (
       <div>
         <div style={{ marginBottom: 16 }}>
+          <Button type="primary" style={{ marginRight: 8 }}><Link to="/products/add"><Icon type="file-add" /> Add</Link></Button>
           <Button type="primary" onClick={this.start} disabled={!hasSelected} loading={loading}>
             Reload
           </Button>

@@ -7,7 +7,7 @@ class ProductList extends Component{
         return(
             <div>
                 <Layouts breadCrumb={["Products","List"]} menuKey="2">
-                    <TableList />
+                  <TableList />
                 </Layouts>
             </div>
         )

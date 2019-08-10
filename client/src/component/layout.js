@@ -27,7 +27,7 @@ class Layouts extends Component {
       <Breadcrumb.Item key={breadCrumb.toString()}>{breadCrumb}</Breadcrumb.Item>
     );
     return (
-      <Layout style={{ minHeight: '100vh' }}>
+      <Layout style={{ minHeight: '100vh' }} >
         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
           <div className="logo" />
           <Menu theme="dark" defaultSelectedKeys={[menuKey]} mode="inline">
@@ -65,7 +65,7 @@ class Layouts extends Component {
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }} />
-          <Content style={{ margin: '0 16px' }}>
+          <Content style={{ margin: '0 70px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               { listBreadcrumb }
             </Breadcrumb>
