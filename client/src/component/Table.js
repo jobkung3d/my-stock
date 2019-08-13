@@ -74,7 +74,7 @@ class TableList extends Component {
     const hasSelected = selectedRowKeys.length > 0;
     return (
       <div>
-        <div style={{ marginBottom: 16 }}>
+        <div style={{ marginBottom: 16, padding: '0 24px' }}>
           <Button type="primary" style={{ marginRight: 8 }}><Link to="/products/add"><Icon type="file-add" /> Add</Link></Button>
           <Button type="primary" onClick={this.start} disabled={!hasSelected} loading={loading}>
             Reload

@@ -65,7 +65,7 @@ class Layouts extends Component {
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }} />
-          <Content style={{ margin: '0 70px' }}>
+          <Content style={{ margin: '0 24px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               { listBreadcrumb }
             </Breadcrumb>
