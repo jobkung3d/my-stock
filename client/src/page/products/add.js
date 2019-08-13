@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Layouts from '../../component/layout';
-import { Form, Input, Button } from 'antd';
+import moment from 'moment';
+import { Form, Input, Button, InputNumber, DatePicker } from 'antd';
 
 function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -8,6 +9,10 @@ function hasErrors(fieldsError) {
   
 
 class ProductAdd extends Component{ 
+    constructor(){
+      super()
+      this.state = {date_buy: new Date()};
+    }
     componentDidMount() {
         // To disabled submit button at the beginning.
         this.props.form.validateFields();
@@ -47,7 +52,12 @@ class ProductAdd extends Component{
             },
           };
         // Only show error after a field is touched.
-        const TitleError = isFieldTouched('username') && getFieldError('username');
+        const TitleError = isFieldTouched('product_name') && getFieldError('product_name');
+        const BarcodeError = isFieldTouched('barcode') && getFieldError('barcode');
+        const PriceBuyError = isFieldTouched('price_buy') && getFieldError('price_buy');
+        const PriceSellError = isFieldTouched('price_sell') && getFieldError('price_sell');
+        const DateBuyError = isFieldTouched('date_buy') && getFieldError('date_buy');
+
         return (
             <div>
                 <Layouts breadCrumb={["Products","Add"]} menuKey="2">
@@ -57,6 +67,47 @@ class ProductAdd extends Component{
                             rules: [{ required: true, message: 'กรุณากรอกชื่อของสินค้า' }],
                             })(
                             <Input size="large" />,
+                            )}
+                        </Form.Item>
+                        <Form.Item validateStatus={BarcodeError ? 'error' : ''} help={BarcodeError || ''} label="หมายเลขบาร์โค้ด">
+                            {getFieldDecorator('barcode', {
+                            rules: [{ required: true, message: 'กรุณากรอกหมายเลขบาร์โค้ด' }],
+                            })(
+                            <Input size="large" />,
+                            )}
+                        </Form.Item>
+                        <Form.Item validateStatus={PriceBuyError ? 'error' : ''} help={PriceBuyError || ''} label="ราคาที่ซื้อมา">
+                            {getFieldDecorator('price_buy', {
+                            rules: [{ required: true, message: 'กรุณากรอกราคาที่ซื้อมา' }],
+                            })(
+                              <InputNumber
+                              size="large"
+                              formatter={value => `฿ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                              parser={value => value.replace(/฿\s?|(,*)/g, '')}
+                              />, 
+                            )}
+                        </Form.Item>
+                        <Form.Item validateStatus={PriceSellError ? 'error' : ''} help={PriceSellError || ''} label="ราคาที่ขาย">
+                            {getFieldDecorator('price_sell', {
+                            rules: [{ required: true, message: 'กรุณากรอกราคาที่ขาย' }],
+                            })(
+                              <InputNumber
+                              size="large"
+                              formatter={value => `฿ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                              parser={value => value.replace(/฿\s?|(,*)/g, '')}
+                              />, 
+                            )}
+                        </Form.Item>
+                        <Form.Item validateStatus={DateBuyError ? 'error' : ''} help={DateBuyError || ''} label="วันที่ซื้อ">
+                            {getFieldDecorator('date_buy', {
+                            rules: [{ required: true, message: 'กรุณากรอกราคาที่ขาย' }],
+                            })(
+                              <DatePicker 
+                                size="large"
+                                defaultValue={moment('2015/01/01', 'DD/MM/YYYY')}
+                                format={'DD/MM/YYYY'}
+                              />, 
+                              
                             )}
                         </Form.Item>
                         <Form.Item {...tailFormItemLayout}>
