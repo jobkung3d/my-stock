@@ -1,17 +1,41 @@
 import React, { Component } from 'react';
 import Layouts from '../../component/layout';
 import moment from 'moment';
-import { Form, Input, Button, InputNumber, DatePicker } from 'antd';
+import { Form, Input, Button, InputNumber, DatePicker, Icon, message, Upload } from 'antd';
 
 function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
-  
+ 
+// Input Upload
+
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
+function beforeUpload(file) {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  if (!isJpgOrPng) {
+    message.error('You can only upload JPG/PNG file!');
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error('Image must smaller than 2MB!');
+  }
+  return isJpgOrPng && isLt2M;
+}
+
+// End Input Upload //
 
 class ProductAdd extends Component{ 
     constructor(){
       super()
-      this.state = {date_buy: new Date()};
+      this.state = {
+        date_buy: new Date(),
+        loading: false,
+      };
     }
     componentDidMount() {
         // To disabled submit button at the beginning.
@@ -27,6 +51,23 @@ class ProductAdd extends Component{
         });
     };
 
+    //Input Upload
+    handleChange = info => {
+      if (info.file.status === 'uploading') {
+        this.setState({ loading: true });
+        return;
+      }
+      if (info.file.status === 'done') {
+        // Get this url from response in real world.
+        getBase64(info.file.originFileObj, imageUrl =>
+          this.setState({
+            imageUrl,
+            loading: false,
+          }),
+        );
+      }
+    };
+    // End Input Upload //
     render() {
         const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
         const formItemLayout = {
@@ -51,13 +92,22 @@ class ProductAdd extends Component{
               },
             },
           };
+
+        // Input Upload
+        const uploadButton = (
+          <div>
+            <Icon type={this.state.loading ? 'loading' : 'plus'} />
+            <div className="ant-upload-text">Upload</div>
+          </div>
+        );
+        const { imageUrl } = this.state;  
         // Only show error after a field is touched.
         const TitleError = isFieldTouched('product_name') && getFieldError('product_name');
         const BarcodeError = isFieldTouched('barcode') && getFieldError('barcode');
         const PriceBuyError = isFieldTouched('price_buy') && getFieldError('price_buy');
         const PriceSellError = isFieldTouched('price_sell') && getFieldError('price_sell');
         const DateBuyError = isFieldTouched('date_buy') && getFieldError('date_buy');
-
+        //const ImageError = isFieldTouched('image') && getFieldError('image');
         return (
             <div>
                 <Layouts breadCrumb={["Products","Add"]} menuKey="2">
@@ -101,15 +151,32 @@ class ProductAdd extends Component{
                         <Form.Item validateStatus={DateBuyError ? 'error' : ''} help={DateBuyError || ''} label="วันที่ซื้อ">
                             {getFieldDecorator('date_buy', {
                             rules: [{ required: true, message: 'กรุณากรอกราคาที่ขาย' }],
+                            initialValue: moment(this.state.date_buy, 'DD/MM/YYYY'),
                             })(
                               <DatePicker 
                                 size="large"
-                                defaultValue={moment('2015/01/01', 'DD/MM/YYYY')}
                                 format={'DD/MM/YYYY'}
                               />, 
                               
                             )}
                         </Form.Item>
+                        <Form.Item label="รูปภาพ">
+                            {getFieldDecorator('image', {
+                            })(
+                              <Upload
+                                name="avatar"
+                                listType="picture-card"
+                                className="avatar-uploader"
+                                showUploadList={false}
+                                action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
+                                beforeUpload={beforeUpload}
+                                onChange={this.handleChange}
+                              >
+                                {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                              </Upload>
+                            )}
+                        </Form.Item>
+                        
                         <Form.Item {...tailFormItemLayout}>
                             <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())}>
                             เพิ่มสินค้า
@@ -122,5 +189,5 @@ class ProductAdd extends Component{
         );
     }
 }
-const WrappedProductAdd = Form.create({ name: 'horizontal_login' })(ProductAdd);
+const WrappedProductAdd = Form.create({ name: 'product_add' })(ProductAdd);
 export default WrappedProductAdd
