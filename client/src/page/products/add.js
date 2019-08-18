@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Layouts from '../../component/layout';
 import moment from 'moment';
 import { Form, Input, Button, InputNumber, DatePicker, Icon, message, Upload } from 'antd';
+import axios from 'axios'
 
 function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -15,7 +16,7 @@ function getBase64(img, callback) {
   reader.readAsDataURL(img);
 }
 
-function beforeUpload(file) {
+/*function beforeUpload(file) {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
   if (!isJpgOrPng) {
     message.error('You can only upload JPG/PNG file!');
@@ -25,7 +26,7 @@ function beforeUpload(file) {
     message.error('Image must smaller than 2MB!');
   }
   return isJpgOrPng && isLt2M;
-}
+}*/
 
 // End Input Upload //
 
@@ -35,6 +36,8 @@ class ProductAdd extends Component{
       this.state = {
         date_buy: new Date(),
         loading: false,
+        previewImage: '',
+        fileList : []
       };
     }
     componentDidMount() {
@@ -42,17 +45,54 @@ class ProductAdd extends Component{
         this.props.form.validateFields();
     }
 
+    handleFileUpload = ({ fileList }) => {
+      console.log('fileList', fileList);
+      this.setState(fileList);
+
+      if(fileList!==''){
+        getBase64(fileList[0].originFileObj, previewImage =>
+          this.setState({
+            previewImage,
+            loading: false,
+          }),
+        );
+      }
+    };
+
+    handleFilePreview = file => {
+      this.setState({
+        previewImage: file.thumbUrl,
+      });
+    };
+
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
             console.log('Received values of form: ', values);
+              axios.post('http://localhost:3000/api/product', {
+                id: 'NULL',
+                user_id: 'NULL',
+                product_name   : values.product_name,
+                image_path     : values.image,
+                original_price : values.original_price,
+                sell_price     : values.sell_price,
+                barcode        : values.barcode,
+                date_add       : values.date_add,
+
+              })
+              .then(res => {
+                console.log(res);
+                console.log(res.data);
+              });
             }
         });
     };
 
+    
+
     //Input Upload
-    handleChange = info => {
+    /*handleChange = info => {
       if (info.file.status === 'uploading') {
         this.setState({ loading: true });
         return;
@@ -66,10 +106,12 @@ class ProductAdd extends Component{
           }),
         );
       }
-    };
+    };*/
+    
     // End Input Upload //
     render() {
         const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
+        const { fileList, previewImage } = this.state;
         const formItemLayout = {
             labelCol: {
               xs: { span: 24 },
@@ -100,7 +142,7 @@ class ProductAdd extends Component{
             <div className="ant-upload-text">Upload</div>
           </div>
         );
-        const { imageUrl } = this.state;  
+
         // Only show error after a field is touched.
         const TitleError = isFieldTouched('product_name') && getFieldError('product_name');
         const BarcodeError = isFieldTouched('barcode') && getFieldError('barcode');
@@ -168,11 +210,12 @@ class ProductAdd extends Component{
                                 listType="picture-card"
                                 className="avatar-uploader"
                                 showUploadList={false}
-                                action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
-                                beforeUpload={beforeUpload}
-                                onChange={this.handleChange}
+                                beforeUpload={() => false}
+                                fileList={fileList}
+                                onPreview={this.handleFilePreview}
+                                onChange={this.handleFileUpload}
                               >
-                                {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                                {previewImage ? <img src={previewImage} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
                               </Upload>
                             )}
                         </Form.Item>
