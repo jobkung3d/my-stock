@@ -16,7 +16,7 @@ function getBase64(img, callback) {
   reader.readAsDataURL(img);
 }
 
-/*function beforeUpload(file) {
+function beforeUpload(file) {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
   if (!isJpgOrPng) {
     message.error('You can only upload JPG/PNG file!');
@@ -26,7 +26,7 @@ function getBase64(img, callback) {
     message.error('Image must smaller than 2MB!');
   }
   return isJpgOrPng && isLt2M;
-}*/
+}
 
 // End Input Upload //
 
@@ -37,7 +37,7 @@ class ProductAdd extends Component{
         date_buy: new Date(),
         loading: false,
         previewImage: '',
-        fileList : []
+        imageUrl : ''
       };
     }
     componentDidMount() {
@@ -45,32 +45,13 @@ class ProductAdd extends Component{
         this.props.form.validateFields();
     }
 
-    handleFileUpload = ({ fileList }) => {
-      console.log('fileList', fileList);
-      this.setState(fileList);
-
-      if(fileList!==''){
-        getBase64(fileList[0].originFileObj, previewImage =>
-          this.setState({
-            previewImage,
-            loading: false,
-          }),
-        );
-      }
-    };
-
-    handleFilePreview = file => {
-      this.setState({
-        previewImage: file.thumbUrl,
-      });
-    };
-
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
+  
             console.log('Received values of form: ', values);
-              axios.post('http://localhost:3000/api/product', {
+              /*axios.post('http://localhost:3000/api/product', {
                 id: 'NULL',
                 user_id: 'NULL',
                 product_name   : values.product_name,
@@ -84,7 +65,7 @@ class ProductAdd extends Component{
               .then(res => {
                 console.log(res);
                 console.log(res.data);
-              });
+              });*/
             }
         });
     };
@@ -92,13 +73,16 @@ class ProductAdd extends Component{
     
 
     //Input Upload
-    /*handleChange = info => {
+    handleChange = info => {
       if (info.file.status === 'uploading') {
         this.setState({ loading: true });
         return;
       }
       if (info.file.status === 'done') {
-        // Get this url from response in real world.
+        this.props.form.setFieldsValue({
+          image: info.file.response.url,
+        });
+        // Get this url from response in real world.       
         getBase64(info.file.originFileObj, imageUrl =>
           this.setState({
             imageUrl,
@@ -106,12 +90,13 @@ class ProductAdd extends Component{
           }),
         );
       }
-    };*/
+    };
     
     // End Input Upload //
+    
     render() {
         const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
-        const { fileList, previewImage } = this.state;
+        const { imageUrl } = this.state;
         const formItemLayout = {
             labelCol: {
               xs: { span: 24 },
@@ -150,6 +135,7 @@ class ProductAdd extends Component{
         const PriceSellError = isFieldTouched('price_sell') && getFieldError('price_sell');
         const DateBuyError = isFieldTouched('date_buy') && getFieldError('date_buy');
         //const ImageError = isFieldTouched('image') && getFieldError('image');
+        console.log(this.props)
         return (
             <div>
                 <Layouts breadCrumb={["Products","Add"]} menuKey="2">
@@ -210,12 +196,11 @@ class ProductAdd extends Component{
                                 listType="picture-card"
                                 className="avatar-uploader"
                                 showUploadList={false}
-                                beforeUpload={() => false}
-                                fileList={fileList}
-                                onPreview={this.handleFilePreview}
-                                onChange={this.handleFileUpload}
+                                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                                beforeUpload={beforeUpload}
+                                onChange={this.handleChange}
                               >
-                                {previewImage ? <img src={previewImage} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                                {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
                               </Upload>
                             )}
                         </Form.Item>
