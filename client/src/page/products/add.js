@@ -80,7 +80,7 @@ class ProductAdd extends Component{
       }
       if (info.file.status === 'done') {
         this.props.form.setFieldsValue({
-          image: info.file.response.url,
+          image_paht: info.file.response.url,
         });
         // Get this url from response in real world.       
         getBase64(info.file.originFileObj, imageUrl =>
@@ -135,7 +135,7 @@ class ProductAdd extends Component{
         const PriceSellError = isFieldTouched('price_sell') && getFieldError('price_sell');
         const DateBuyError = isFieldTouched('date_buy') && getFieldError('date_buy');
         //const ImageError = isFieldTouched('image') && getFieldError('image');
-        console.log(this.props)
+       // console.log(this.props)
         return (
             <div>
                 <Layouts breadCrumb={["Products","Add"]} menuKey="2">
