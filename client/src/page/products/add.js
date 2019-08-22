@@ -82,6 +82,7 @@ class ProductAdd extends Component{
         this.props.form.setFieldsValue({
           image_path: info.file.response.url,
         });
+        //console.log(this.props.getFieldProps())
         // Get this url from response in real world.       
         getBase64(info.file.originFileObj, imageUrl =>
           this.setState({
@@ -196,7 +197,7 @@ class ProductAdd extends Component{
                                 listType="picture-card"
                                 className="avatar-uploader"
                                 showUploadList={false}
-                                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                                action="http://localhost:3000/api/upload"
                                 beforeUpload={beforeUpload}
                                 onChange={this.handleChange}
                               >

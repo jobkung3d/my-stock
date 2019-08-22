@@ -76,6 +76,10 @@ app.post('/api/product', (req,res)=>{
     
 })
 
+app.post('/api/upload', (req,res)=>{
+    res.json('uploaded!')
+})
+
 app.post('/user/:id', (req,res)=>{
     res.send('user')
 })
