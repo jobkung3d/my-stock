@@ -80,7 +80,7 @@ class ProductAdd extends Component{
       }
       if (info.file.status === 'done') {
         this.props.form.setFieldsValue({
-          image_paht: info.file.response.url,
+          image_path: info.file.response.url,
         });
         // Get this url from response in real world.       
         getBase64(info.file.originFileObj, imageUrl =>
@@ -204,7 +204,9 @@ class ProductAdd extends Component{
                               </Upload>
                             )}
                         </Form.Item>
-                        
+                        <Form.Item style={{ display:'none' }}>
+                            {getFieldDecorator('image_path')(<Input/>,)}
+                        </Form.Item>
                         <Form.Item {...tailFormItemLayout}>
                             <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())}>
                             เพิ่มสินค้า
