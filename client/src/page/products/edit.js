@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Layouts from '../../component/layout';
 import moment from 'moment';
 import { Form, Input, Button, InputNumber, DatePicker, Icon, message, Upload } from 'antd';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios'
 
 function hasErrors(fieldsError) {
@@ -30,20 +31,38 @@ function beforeUpload(file) {
 
 // End Input Upload //
 
-class ProductAdd extends Component{ 
-    constructor(){
-      super()
+class ProductEdit extends Component{ 
+    constructor(props){
+      super(props)
       this.state = {
-        date_add: new Date(),
+        date_add: '',
         loading: false,
         previewImage: '',
-        imageUrl : ''
+        imageUrl : '',
+        redirectToReferrer : false
       };
+
+      // To disabled submit button at the beginning.
+      let productID = this.props.match.params.productId;
+      this.props.form.validateFields();
+      axios.get('http://localhost:3000/api/product/' + productID)
+      .then(res => {
+        //console.log(res);
+        //console.log(res.data);
+        this.setState({
+          id: res.data[0].id,
+          user_id        : res.data[0].user_id,
+          product_name   : res.data[0].product_name,
+          image_path     : res.data[0].image_path,
+          original_price : res.data[0].original_price,
+          sell_price     : res.data[0].sell_price,
+          barcode        : res.data[0].barcode,
+          date_add       : res.data[0].date_add,
+        })
+      });
+      
     }
-    componentDidMount() {
-        // To disabled submit button at the beginning.
-        this.props.form.validateFields();
-    }
+
 
     handleSubmit = e => {
         e.preventDefault();
@@ -51,19 +70,19 @@ class ProductAdd extends Component{
             if (!err) {
   
             console.log('Received values of form: ', values);
-              axios.post('http://localhost:3000/api/product', {
-                id: 'NULL',
-                user_id: 'NULL',
+             axios.put('http://localhost:3000/api/product/'+this.state.id, {
                 product_name   : values.product_name,
                 image_path     : values.image_path,
                 original_price : values.original_price,
                 sell_price     : values.sell_price,
                 barcode        : values.barcode,
                 date_add       : values.date_add,
-
               })
               .then(res => {
                 console.log(res);
+                this.setState({
+                  redirectToReferrer: true,
+                })
                 console.log(res.data);
               });
             }
@@ -96,8 +115,17 @@ class ProductAdd extends Component{
     // End Input Upload //
     
     render() {
+        const redirectToReferrer = this.state.redirectToReferrer;
+        if (redirectToReferrer === true) {
+            return <Redirect to={{
+              pathname: "/products",
+              state: { 
+                message: 'Update Success!' 
+              }
+            }} />
+        }
         const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
-        const { imageUrl } = this.state;
+        const { imageUrl, product_name, image_path, original_price, sell_price, barcode, date_add} = this.state;
         const formItemLayout = {
             labelCol: {
               xs: { span: 24 },
@@ -136,14 +164,14 @@ class ProductAdd extends Component{
         const PriceSellError = isFieldTouched('price_sell') && getFieldError('price_sell');
         const DateBuyError = isFieldTouched('date_add') && getFieldError('date_add');
         //const ImageError = isFieldTouched('image') && getFieldError('image');
-       // console.log(this.props)
         return (
             <div>
-                <Layouts breadCrumb={["Products","Add"]} menuKey="2">
+                <Layouts breadCrumb={["Products","Edit"]} menuKey="2">
                     <Form {...formItemLayout} onSubmit={this.handleSubmit} >
                         <Form.Item validateStatus={TitleError ? 'error' : ''} help={TitleError || ''} label="ชื่อสินค้า">
                             {getFieldDecorator('product_name', {
                             rules: [{ required: true, message: 'กรุณากรอกชื่อของสินค้า' }],
+                            initialValue: product_name
                             })(
                             <Input size="large" />,
                             )}
@@ -151,6 +179,7 @@ class ProductAdd extends Component{
                         <Form.Item validateStatus={BarcodeError ? 'error' : ''} help={BarcodeError || ''} label="หมายเลขบาร์โค้ด">
                             {getFieldDecorator('barcode', {
                             rules: [{ required: true, message: 'กรุณากรอกหมายเลขบาร์โค้ด' }],
+                            initialValue: barcode
                             })(
                             <Input size="large" />,
                             )}
@@ -158,6 +187,7 @@ class ProductAdd extends Component{
                         <Form.Item validateStatus={PriceBuyError ? 'error' : ''} help={PriceBuyError || ''} label="ราคาที่ซื้อมา">
                             {getFieldDecorator('original_price', {
                             rules: [{ required: true, message: 'กรุณากรอกราคาที่ซื้อมา' }],
+                            initialValue: original_price
                             })(
                               <InputNumber
                               size="large"
@@ -169,6 +199,7 @@ class ProductAdd extends Component{
                         <Form.Item validateStatus={PriceSellError ? 'error' : ''} help={PriceSellError || ''} label="ราคาที่ขาย">
                             {getFieldDecorator('sell_price', {
                             rules: [{ required: true, message: 'กรุณากรอกราคาที่ขาย' }],
+                            initialValue: sell_price
                             })(
                               <InputNumber
                               size="large"
@@ -180,7 +211,7 @@ class ProductAdd extends Component{
                         <Form.Item validateStatus={DateBuyError ? 'error' : ''} help={DateBuyError || ''} label="วันที่ซื้อ">
                             {getFieldDecorator('date_add', {
                             rules: [{ required: true, message: 'กรุณากรอกราคาที่ขาย' }],
-                            initialValue: moment(this.state.date_add, 'DD/MM/YYYY'),
+                            initialValue: date_add?moment(date_add):null,
                             })(
                               <DatePicker 
                                 size="large"
@@ -206,11 +237,13 @@ class ProductAdd extends Component{
                             )}
                         </Form.Item>
                         <Form.Item style={{ display:'none' }}>
-                            {getFieldDecorator('image_path')(<Input/>,)}
+                            {getFieldDecorator('image_path',{
+                              initialValue: image_path
+                            })(<Input/>,)}
                         </Form.Item>
                         <Form.Item {...tailFormItemLayout}>
                             <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())}>
-                            เพิ่มสินค้า
+                            แก้ไขสินค้า
                             </Button>
                         </Form.Item>
                         
@@ -220,5 +253,5 @@ class ProductAdd extends Component{
         );
     }
 }
-const WrappedProductAdd = Form.create({ name: 'product_add' })(ProductAdd);
-export default WrappedProductAdd
+const WrappedProductEdit = Form.create({ name: 'product_edit' })(ProductEdit);
+export default WrappedProductEdit
