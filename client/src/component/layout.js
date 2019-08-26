@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import { Layout, Menu, Breadcrumb, Icon, PageHeader, Tag, Button  } from 'antd';
 import { withRouter, Link } from "react-router-dom";
 import 'antd/dist/antd.css'
 import '../static/style.css'
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
-
 
 class Layouts extends Component {
 
@@ -69,6 +68,19 @@ class Layouts extends Component {
             <Breadcrumb style={{ margin: '16px 0' }}>
               { listBreadcrumb }
             </Breadcrumb>
+            <PageHeader
+              onBack={() => window.history.back()}
+              title="Title"
+              subTitle="This is a subtitle"
+              tags={<Tag color="red">Warning</Tag>}
+              extra={[
+                <Button key="3">Operation</Button>,
+                <Button key="2">Operation</Button>,
+                <Button key="1" type="primary">
+                  Primary
+                </Button>,
+              ]}
+            ></PageHeader>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
               { children }
             </div>
