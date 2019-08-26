@@ -18,7 +18,8 @@ const connection = mysql.createConnection({
 
 // ใช้ cors เพื่อ allow-origin ว่าอนุญาติให้เว็บไหนใช้ได้บ้าง
 app.use(cors())
-connection.connect()
+
+if(connection==null){connection.connect()}
 
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -91,7 +92,6 @@ app.post('/api/upload', (req,res)=>{
         
         let oldpath = files.avatar.path;//ตำแหน่งที่เราเลือกต้นทาง
         let newpath = 'uploads/' + files.avatar.name;//ตำแหน่งปลายทาง
-
          fs.readFile(oldpath, function (err, data) {
             if (err) throw err;
 

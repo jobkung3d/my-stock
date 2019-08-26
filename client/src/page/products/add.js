@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Layouts from '../../component/layout';
 import moment from 'moment';
 import { Form, Input, Button, InputNumber, DatePicker, Icon, message, Upload } from 'antd';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios'
 
 function hasErrors(fieldsError) {
@@ -37,7 +38,8 @@ class ProductAdd extends Component{
         date_add: new Date(),
         loading: false,
         previewImage: '',
-        imageUrl : ''
+        imageUrl : '',
+        redirectToReferrer : false
       };
     }
     componentDidMount() {
@@ -64,6 +66,9 @@ class ProductAdd extends Component{
               })
               .then(res => {
                 console.log(res);
+                this.setState({
+                  redirectToReferrer: true,
+                })
                 console.log(res.data);
               });
             }
@@ -96,6 +101,15 @@ class ProductAdd extends Component{
     // End Input Upload //
     
     render() {
+        const redirectToReferrer = this.state.redirectToReferrer;
+        if (redirectToReferrer === true) {
+            return <Redirect to={{
+              pathname: "/products",
+              state: { 
+                message: 'Add Success!' 
+              }
+            }} />
+        }
         const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
         const { imageUrl } = this.state;
         const formItemLayout = {
