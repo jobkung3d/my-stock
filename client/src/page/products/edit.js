@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Layouts from '../../component/layout';
 import moment from 'moment';
-import { Form, Input, Button, InputNumber, DatePicker, Icon, message, Upload } from 'antd';
+import { Form, Input, Button, InputNumber, DatePicker, Icon, message, Upload, PageHeader, Divider } from 'antd';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios'
 
@@ -167,6 +167,13 @@ class ProductEdit extends Component{
         return (
             <div>
                 <Layouts breadCrumb={["Products","Edit"]} menuKey="2">
+                    <PageHeader
+                      onBack={() => window.history.back()}
+                      title="Product edit"
+                      subTitle="( แก้ไขสินค้า )"
+                      style={{'margin': '-24px'}}
+                    ></PageHeader>
+                    <Divider />
                     <Form {...formItemLayout} onSubmit={this.handleSubmit} >
                         <Form.Item validateStatus={TitleError ? 'error' : ''} help={TitleError || ''} label="ชื่อสินค้า">
                             {getFieldDecorator('product_name', {

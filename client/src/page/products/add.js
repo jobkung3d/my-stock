@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Layouts from '../../component/layout';
 import moment from 'moment';
-import { Form, Input, Button, InputNumber, DatePicker, Icon, message, Upload} from 'antd';
-import { Redirect, Link } from 'react-router-dom';
+import { Form, Input, Button, InputNumber, DatePicker, Icon, message, Upload, PageHeader, Tag, Card, Divider } from 'antd';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios'
 
 
@@ -154,7 +154,14 @@ class ProductAdd extends Component{
        // console.log(this.props)
         return (
             <div>
-                <Layouts breadCrumb={["Products","Add"]} menuKey="2">   
+                <Layouts breadCrumb={["Products","Add"]} menuKey="2">      
+                      <PageHeader
+                      onBack={() => window.history.back()}
+                      title="Product add"
+                      subTitle="( เพิ่มสินค้า )"
+                      style={{'margin': '-24px'}}
+                    ></PageHeader>
+                    <Divider />
                     <Form {...formItemLayout} onSubmit={this.handleSubmit} >
                         <Form.Item validateStatus={TitleError ? 'error' : ''} help={TitleError || ''} label="ชื่อสินค้า">
                             {getFieldDecorator('product_name', {
