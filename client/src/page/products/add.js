@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Layouts from '../../component/layout';
 import moment from 'moment';
-import { Form, Input, Button, InputNumber, DatePicker, Icon, message, Upload, PageHeader, Tag, Card, Divider } from 'antd';
+import { Form, Input, Button, InputNumber, DatePicker, Icon, message, Upload, PageHeader, Divider } from 'antd';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios'
 

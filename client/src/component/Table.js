@@ -35,13 +35,13 @@ class TableList extends Component {
     const columns = [
       {
         title: 'รูป',
-        dataIndex: 'image',
-        key: 'image'
+        dataIndex: 'image_path',
+        key: 'image_path'
       },
       {
         title: 'ชื่อ',
         dataIndex: 'name',
-        key: 'ชื่อ'
+        key: 'name'
       },
       {
         title: 'บาร์โค้ด',
@@ -86,6 +86,7 @@ class TableList extends Component {
         barcode: value.barcode,
         original_price: value.original_price,
         sell_price: value.sell_price,
+        image_path: (value.image_path?'<img src="'+value.image_path+'"/>':''),
         date_add: moment(value.date_add).format("DD/MM/YYYY")
       });
     })
