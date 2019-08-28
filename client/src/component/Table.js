@@ -37,9 +37,11 @@ class TableList extends Component {
         title: 'รูป',
         dataIndex: 'image_path',
         key: 'image_path',
-        render: image_path => (
+        render: image_path =>(
           <span>
-            {image_path?"<img src=" + image_path + "/>":''}
+            {
+              image_path.split("/", -1) 
+            }
           </span>
         ),
       },
