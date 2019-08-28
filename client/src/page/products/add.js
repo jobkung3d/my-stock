@@ -40,7 +40,7 @@ class ProductAdd extends Component{
         loading: false,
         previewImage: '',
         imageUrl : '',
-        redirectToReferrer : false
+        redirectToReferrer : false,
       };
     }
     componentDidMount() {
@@ -157,8 +157,7 @@ class ProductAdd extends Component{
                 <Layouts breadCrumb={["Products","Add"]} menuKey="2">      
                       <PageHeader
                       onBack={() => window.history.back()}
-                      title="Product add"
-                      subTitle="( เพิ่มสินค้า )"
+                      title="ย้อนกลับ"
                       style={{'margin': '-24px'}}
                     ></PageHeader>
                     <Divider />

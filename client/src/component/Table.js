@@ -36,7 +36,12 @@ class TableList extends Component {
       {
         title: 'รูป',
         dataIndex: 'image_path',
-        key: 'image_path'
+        key: 'image_path',
+        render: image_path => (
+          <span>
+            {image_path?"<img src=" + image_path + "/>":''}
+          </span>
+        ),
       },
       {
         title: 'ชื่อ',
@@ -86,7 +91,7 @@ class TableList extends Component {
         barcode: value.barcode,
         original_price: value.original_price,
         sell_price: value.sell_price,
-        image_path: (value.image_path?'<img src="'+value.image_path+'"/>':''),
+        image_path: value.image_path,
         date_add: moment(value.date_add).format("DD/MM/YYYY")
       });
     })

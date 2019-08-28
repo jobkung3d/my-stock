@@ -169,8 +169,7 @@ class ProductEdit extends Component{
                 <Layouts breadCrumb={["Products","Edit"]} menuKey="2">
                     <PageHeader
                       onBack={() => window.history.back()}
-                      title="Product edit"
-                      subTitle="( แก้ไขสินค้า )"
+                      title="ย้อนกลับ"
                       style={{'margin': '-24px'}}
                     ></PageHeader>
                     <Divider />
