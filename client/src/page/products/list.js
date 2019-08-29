@@ -29,7 +29,11 @@ class ProductList extends Component{
             })
         });
     }
-
+    /*componentDidMount() {
+        this.setState({
+            projectList : res.data,
+        })
+    }*/
     render(){
         return(
             <div>

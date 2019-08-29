@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button, Divider, Icon } from 'antd'
+import { Table, Button, Icon } from 'antd'
 import { Link } from 'react-router-dom'
 import moment from 'moment';
 
@@ -39,9 +39,7 @@ class TableList extends Component {
         key: 'image_path',
         render: image_path =>(
           <span>
-            {
-              image_path.split("/", -1) 
-            }
+            <img width="150" alt="" src={"http://localhost:3000/image/" + image_path.split('/')[1]} />
           </span>
         ),
       },
@@ -77,8 +75,6 @@ class TableList extends Component {
           <span>
             <Button type="link">
             <Link to={{ pathname: '/products/edit/'+record.id }}>Edit</Link></Button>
-            <Divider type="vertical" />
-            <Button type="link" onClick={this.onClickAction}>Delete</Button>
           </span>
         )
       },
@@ -115,7 +111,7 @@ class TableList extends Component {
             {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
           </span>
         </div>
-        <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+        <Table bordered="true" rowSelection={rowSelection} columns={columns} dataSource={data} />
       </div>
     );
   }

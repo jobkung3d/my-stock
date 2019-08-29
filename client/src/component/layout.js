@@ -65,7 +65,7 @@ class Layouts extends Component {
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }} />
           <Content style={{ margin: '0 24px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
+            <Breadcrumb style={{ margin: '16px 0', textAlign: 'right' }}>
               { listBreadcrumb }
             </Breadcrumb>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
