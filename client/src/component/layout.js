@@ -28,7 +28,7 @@ class Layouts extends Component {
     return (
       <Layout style={{ minHeight: '100vh' }} >
         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
-          <div className="logo" />
+          <div className="logo" style={{fontSize:'19px',padding:'0 10px',color:'white'}}>My Stock</div>
           <Menu theme="dark" defaultSelectedKeys={[menuKey]} mode="inline">
             <Menu.Item key="1">
               <Icon type="pie-chart" />

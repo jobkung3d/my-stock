@@ -38,9 +38,9 @@ class TableList extends Component {
         dataIndex: 'image_path',
         key: 'image_path',
         render: image_path =>(
-          <span>
+          <div style={{textAlign:'center'}}>
             <img width="150" alt="" src={"http://localhost:3000/image/" + image_path.split('/')[1]} />
-          </span>
+          </div>
         ),
       },
       {
@@ -94,7 +94,7 @@ class TableList extends Component {
       });
     })
 
-    const { loading, selectedRowKeys } = this.state;
+    const { /*loading,*/ selectedRowKeys } = this.state;
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
@@ -104,14 +104,14 @@ class TableList extends Component {
       <div>
         <div style={{ marginBottom: 16 }}>
           <Button type="primary" style={{ marginRight: 8 }}><Link to="/products/add"><Icon type="file-add" /> Add</Link></Button>
-          <Button type="primary" onClick={this.start} disabled={!hasSelected} loading={loading}>
+          {/*<Button type="primary" onClick={this.start} disabled={!hasSelected} loading={loading}>
             Reload
-          </Button>
+           </Button>*/}
           <span style={{ marginLeft: 8 }}>
             {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
           </span>
         </div>
-        <Table bordered="true" rowSelection={rowSelection} columns={columns} dataSource={data} />
+        <Table bordered={true} rowSelection={rowSelection} columns={columns} dataSource={data} />
       </div>
     );
   }
